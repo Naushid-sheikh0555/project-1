@@ -1,225 +1,271 @@
+
+<?php
+session_start();
+$welcomeMessage = "";
+
+if (isset($_SESSION["show_welcome"]) && $_SESSION["show_welcome"] === true) {
+    $name = htmlspecialchars($_SESSION["first_name"]);
+    $welcomeMessage = "Welcome, $name!";
+    
+    // Show only once
+    $_SESSION["show_welcome"] = false;
+}
+?>
+
+
+
+
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blood Donation - Days of Gratitude</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #333;
-      background-color: #FFF5F5;
-    }
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PRASANGAM</title>
 
-    header {
-      background-color: #FF8A80;
-      display: flex;
-      justify-content: space-between;
-      padding: 20px 40px;
-      align-items: center;
-      color: white;
-    }
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+  <!-- Bootstrap Icons -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    rel="stylesheet"
+  />
 
-    .logo {
-      font-size: 26px;
-      font-weight: bold;
-    }
-
-    nav a {
-      color: white;
-      margin: 0 12px;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    /* Slider Styles */
-    .slider {
-      position: relative;
-      overflow: hidden;
-      height: 500px;
-    }
-
-    .slides {
-      display: flex;
-      width: 300%;
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .slide {
-      width: 100%;
-      flex-shrink: 0;
-      position: relative;
-    }
-
-    .slides img {
-            width: 100%;
-            height:   px; /* fixed height */
-            object-fit: cover; /* maintain aspect ratio */
-            display: block;
-        }
-
-    .slide-text {
-      position: absolute;
-      bottom: 60px;
-      left: 40px;
-      color: white;
-      font-size: 32px;
-      font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.4);
-      padding: 10px 20px;
-      border-radius: 6px;
-      i;
-    }
-
-    .slider-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      transform: translateY(-50%);
-    }
-
-    .slider-nav button {
-      background-color: rgba(255,255,255,0.8);
-      border: none;
-      font-size: 24px;
-      padding: 10px;
-      cursor: pointer;
-      border-radius: 50%;
-      margin: 0 20px;
-    }
-
-    .hero {
-      background: linear-gradient(rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.9)),
-                  url('https://via.placeholder.com/1600x600/FEE0E0/8A0000?text=Donate+Blood,+Save+Lives');
-      background-size: cover;
-      background-position: center;
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 0 60px;
-      text-align: left;
-    }
-
-    .hero h1 {
-      font-size: 48px;
-      color: #B71C1C;
-      margin-bottom: 20px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      max-width: 600px;
-      color: #444;
-    }
-
-    .buttons {
-      margin-top: 25px;
-    }
-
-    .buttons a {
-      display: inline-block;
-      padding: 12px 24px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 4px;
-      margin-right: 12px;
-    }
-
-    .buttons .learn {
-      background-color: #FFF;
-      color: #C62828;
-      border: 2px solid #C62828;
-    }
-
-    .buttons .organize {
-      background-color: #D32F2F;
-      color: #FFF;
-      border: none;
-    }
-    img {
-           max-width: 100%;
-           height: auto;
-       }
-  </style>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <?php if (!empty($welcomeMessage)): ?>
+  <div class="alert alert-success text-center mt-3" role="alert">
+    <?= $welcomeMessage ?>
+  </div>
+<?php endif; ?>
 
-  <header>
-    <div class="logo">RaktVahini</div>
-    <nav>
-      <a href="./about as.php">ABOUT US</a>
-      <a href="#">ORGANIZE A CAMP</a>
-      <a href="#">SPREAD AWARENESS</a>
-      <a href="#">JOIN US</a>
-      <a href="#">BLOG</a>
-      <a href="./login.php">LOGIN</a>
-      <a href="./signup.php">SIGN UP</a>
-    </nav>
 
-  </header>
+<header>
+<div class="logo">
+  <img src="./img/logo.ico" alt="Prasangam Logo" class="logo-img" />
+  <span class="logo-text">Prasan<span>gam</span></span>
+</div>
 
-  <!-- Image Slider -->
-  <div class="slider">
-    <div class="slides" id="slides">
-      <div class="slide">
-        <img src="./360_F_504368477_XGrt6brpAmFWPfjWGnPJD9bLU6Gi35yG.jpg" >
-        <div class="slide-text">Donate Blood, Save Lives</div>
-    </div>
-      <div class="slide">
-        <img src="./image/blood-drop-donor-vector-illustration-260nw-1173231970-removebg-preview.png
-        " alt="Slide 2">
-        <div class="slide-text">Every Drop Counts</div>
-      </div>
-    <div class="slide">
-        <img src="https://via.placeholder.com/1600x500/ffccbc/000000?text=Be+a+Hero+Today" alt="Slide 3">
-        <div class="slide-text">Be a Hero Today</div>
-      </div>
-    </div>
-    <div class="slider-nav">
-      <button onclick="prevSlide()">&#10094;</button>
-      <button onclick="nextSlide()">&#10095;</button>
-    </div>
+  <div class="search-container" role="search" aria-label="Search events and location">
+    <i class="bi bi-search search-icon" aria-hidden="true"></i>
+    <input
+      type="search"
+      class="search-input"
+      placeholder="Search events"
+      aria-label="Search events"
+    />
+    <i class="bi bi-geo-alt location-icon" aria-hidden="true"></i>
+    <input
+      type="search"
+      class="location-input"
+      placeholder="Jamnagar"
+      aria-label="Location"
+    />
+    <button class="search-btn" aria-label="Search">
+      <i class="bi bi-search"></i>
+    </button>
   </div>
 
-  <!-- Hero Section -->
-  <section class="hero">
-    <h1>Days of Gratitude</h1>
-    <p>Your birthday can be someone else's special day as well. Make your birthday memorable by giving someone the “Gift of Life”.<br>
-    Donate blood. Donate for a cause.</p>
-    <div class="buttons">
-      <a href="#" class="learn">Learn More</a>
-      <a href="#" class="organize">Organize a Camp</a>
+  <nav role="navigation" aria-label="Primary navigation">
+    <a href="#">Contact Sales</a>
+    <a href="#">Create Events</a>
+    <a href="#">Help Center</a>
+    <a href="#">Find my tickets</a>
+    <a href="./login.php">Log In</a>
+    <a href="./signup.php">Sign Up</a>
+  </nav>
+</header>
+
+<!-- Hero Carousel -->
+<div
+  id="heroCarousel"
+  class="carousel slide hero-carousel"
+  data-bs-ride="carousel"
+  data-bs-interval="5000"
+  aria-label="Hero event highlights"
+>
+  <div class="carousel-inner">
+    <div
+      class="carousel-item active"
+      style="
+        background-image: url('https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&w=1400&q=80');
+      "
+    >
+      <div class="hero-text">
+        <span class="highlight-orange">FROM SMOKED MEATS</span><br />
+        <span class="highlight-light">TO SWEET</span>
+        <span class="highlight-orange">TREATS</span><br />
+        <button class="hero-btn" type="button">Get Into Food Festivals</button>
+      </div>
     </div>
-  </section>
+    <div
+      class="carousel-item"
+      style="
+        background-image: url('./img/singing.jpg');
+      "
+    >
+      <div class="hero-text">
+        <span class="highlight-orange">DISCOVER</span><br />
+        <span class="highlight-light">THE BEST</span>
+        <span class="highlight-orange">EVENTS</span><br />
+        <button class="hero-btn" type="button">Explore Now</button>
+      </div>
+    </div>
+  </div>
+  <button
+    class="carousel-control-prev"
+    type="button"
+    data-bs-target="#heroCarousel"
+    data-bs-slide="prev"
+    aria-label="Previous slide"
+  >
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+  </button>
+  <button
+    class="carousel-control-next"
+    type="button"
+    data-bs-target="#heroCarousel"
+    data-bs-slide="next"
+    aria-label="Next slide"
+  >
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+  </button>
+</div>
 
-  <!-- Slider Script -->
-  <script>
-    let currentSlide = 0;
-    const slides = document.getElementById('slides');
-    const totalSlides = slides.children.length;
+<!-- Categories -->
+<section class="categories" aria-label="Event categories">
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-mic"></i></div>
+    Music
+  </div>
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-disc"></i></div>
+    Nightlife
+  </div>
+  <div class="category-item long-text">
+    <div class="circle-icon"><i class="bi bi-theater-masks"></i></div>
+    Performing & Visual Arts
+  </div>
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-calendar-event"></i></div>
+    Holidays
+  </div>
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-chat-heart"></i></div>
+    Dating
+  </div>
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-controller"></i></div>
+    Hobbies
+  </div>
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-briefcase"></i></div>
+    Business
+  </div>
+  <div class="category-item">
+    <div class="circle-icon"><i class="bi bi-cup-straw"></i></div>
+    Food & Drink
+  </div>
+</section>
+<!-- Featured Cities Section -->
+<section class="featured-cities mt-5 px-4">
+  <div class="d-flex overflow-auto gap-3 pb-2">
+    <div class="city-card text-white text-start" style="background-image: url('https://cdn.pixabay.com/photo/2016/11/29/09/08/new-york-1867569_1280.jpg');">
+      <h5 class="fw-bold p-3">New York</h5>
+    </div>
+    <div class="city-card text-white text-start" style="background-image: url('https://cdn.pixabay.com/photo/2017/01/20/00/30/los-angeles-1990603_1280.jpg');">
+      <h5 class="fw-bold p-3">Los Angeles</h5>
+    </div>
+    <div class="city-card text-white text-start" style="background-image: url('https://cdn.pixabay.com/photo/2017/03/27/13/54/chicago-2179935_1280.jpg');">
+      <h5 class="fw-bold p-3">Chicago</h5>
+    </div>
+    <div class="city-card text-white text-start" style="background-image: url('https://cdn.pixabay.com/photo/2015/09/06/01/40/washington-d-c-925673_1280.jpg');">
+      <h5 class="fw-bold p-3">Washington</h5>
+    </div>
+  </div>
+</section>
 
-    function showSlide(index) {
-      if (index >= totalSlides) currentSlide = 0;
-      else if (index < 0) currentSlide = totalSlides - 1;
-      else currentSlide = index;
-      slides.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-    }
+<!-- Popular Cities Tags -->
+<section class="popular-cities px-4 mt-4 mb-5">
+  <h5 class="fw-bold mb-3">Popular cities</h5>
+  <div class="d-flex flex-wrap gap-2 overflow-auto pb-2">
+    <button class="btn btn-light rounded-pill">Things to do in Austin</button>
+    <button class="btn btn-light rounded-pill">Things to do in Abilene</button>
+    <button class="btn btn-light rounded-pill">Things to do in Denver</button>
+    <button class="btn btn-light rounded-pill">Things to do in Seattle</button>
+    <button class="btn btn-light rounded-pill">Things to do in Phoenix</button>
+    <button class="btn btn-light rounded-pill">Things to do in Detroit</button>
+    <button class="btn btn-light rounded-pill">Things to do in Albuquerque</button>
+    <button class="btn btn-light rounded-pill">Things to do in Anaheim</button>
+    <button class="btn btn-light rounded-pill">Things to do in Raleigh</button>
+    <button class="btn btn-light rounded-pill">Things to do in Baltimore</button>
+    <button class="btn btn-light rounded-pill">Things to do in Indianapolis</button>
+    <button class="btn btn-light rounded-pill">Things to do in Wichita</button>
+    <button class="btn btn-light rounded-pill">Things to do in San Antonio</button>
+  </div>
+</section>
+<footer class="footer bg-dark text-light py-5 mt-5">
+  <div class="container">
+    <div class="row">
 
-    function nextSlide() {
-      showSlide(currentSlide + 1);
-    }
+      <div class="col-6 col-md-3 mb-4">
+        <h6 class="fw-bold mb-3">Use Eventbrite</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-light text-decoration-none">Create Events</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Find Events</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Pricing</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Eventbrite App</a></li>
+        </ul>
+      </div>
 
-    function prevSlide() {
-      showSlide(currentSlide - 1);
-    }
+      <div class="col-6 col-md-3 mb-4">
+        <h6 class="fw-bold mb-3">Plan Events</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-light text-decoration-none">Sell Tickets Online</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Professional Event Planning</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Eventbrite Pricing</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Event Management Software</a></li>
+        </ul>
+      </div>
 
-    // Optional: Auto-slide every 5 seconds
-    setInterval(nextSlide, 5000);
-  </script>
+      <div class="col-6 col-md-3 mb-4">
+        <h6 class="fw-bold mb-3">Find Events</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-light text-decoration-none">New Orleans Food & Drink Events</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Los Angeles Music Events</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Chicago Business Events</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Seattle Networking Events</a></li>
+        </ul>
+      </div>
+
+      <div class="col-6 col-md-3 mb-4">
+        <h6 class="fw-bold mb-3">Connect With Us</h6>
+        <ul class="list-unstyled small">
+          <li><a href="#" class="text-light text-decoration-none">Contact Support</a></li>
+          <li><a href="#" class="text-light text-decoration-none">About Eventbrite</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Careers</a></li>
+          <li><a href="#" class="text-light text-decoration-none">Become a Partner</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="border-light" />
+
+    <div class="text-center small">
+      &copy; 2025 Eventbrite, Inc. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+
+
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 </html>
